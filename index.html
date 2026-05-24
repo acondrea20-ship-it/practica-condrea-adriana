@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magia Evenimentelor & System Control | Adriana Condrea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="light-mode"> 
+    
+    <header class="header">
+        <nav class="overlay">
+            <div class="logo">
+                <h1>Magia Evenimentelor</h1>
+            </div>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="#hero">Acasă</a>
+                    <a href="system-control.html">System Control</a>
+                    <a href="#servicii">Servicii</a>
+                    <a href="#preturi">Prețuri</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <button id="theme-toggle" class="theme-btn" aria-label="Schimbă tema">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="intro">
+            <h2>"Transformăm orice moment într-o amintire magică."</h2>
+            <div class="intro-images">
+                <div class="img-wrapper big">
+                    <img src="assets/img/nunta.jpg" alt="Nuntă">
+                </div>
+                <div class="img-wrapper">
+                    <img src="assets/img/botez.jpg" alt="Botez">
+                </div>
+            </div>
+        </section>
+
+        <section id="system-control" class="section-container system-dashboard">
+            <h2 class="section-title">📊 System Control Dashboard</h2>
+            <p class="dashboard-subtitle">Monitorizare performanță interfață și optimizare GPU</p>
+            
+            <div class="status-display" id="status-box">
+                <span class="status-icon" id="status-emoji">🚀</span>
+                <div class="status-text">
+                    <h3 id="status-title">Sistem Pregătit</h3>
+                    <p id="status-desc">Apasă pe butoanele de mai jos pentru a rula diagnosticul de performanță.</p>
+                </div>
+            </div>
+
+            <div class="buttons-container">
+                <button class="btn-feature" onclick="runSystemCheck('viteza')">⚡ Viteză</button>
+                <button class="btn-feature" onclick="runSystemCheck('design')">🎨 Design</button>
+                <button class="btn-feature" onclick="runSystemCheck('logica')">🧠 Logică</button>
+                <button class="btn-feature" onclick="runSystemCheck('animatii')">🎬 Animații</button>
+                <button class="btn-feature" onclick="runSystemCheck('sistem')">⚙️ Sistem</button>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h4>Viteză de Încărcare</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="speed-bar" style="width: 40%;"></div>
+                    </div>
+                    <span class="metric-val" id="speed-val">0.4s (Așteptare test)</span>
+                </div>
+                <div class="metric-card">
+                    <h4>Optimizare GPU 3D</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="gpu-bar" style="width: 30%;"></div>
+                    </div>
+                    <span class="metric-val" id="gpu-val">Hardware Acceleration inactiv</span>
+                </div>
+                <div class="metric-card">
+                    <h4>Randare CSS Grid</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="grid-bar" style="width: 50%;"></div>
+                    </div>
+                    <span class="metric-val" id="grid-val">30 FPS Standby</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicii" class="services-grid-container">
+            <div class="services">
+                <article class="service">
+                    <h2>Nuntă</h2>
+                    <div class="service-img-container">
+                        <img src="assets/img/nunta.jpg" alt="Planificare Nuntă">
+                    </div>
+                    <p>Planificare completă pentru ziua cea mare.</p>
+                </article>
+                <article class="service">
+                    <h2>Botez</h2>
+                    <div class="service-img-container">
+                        <img src="assets/img/botez.jpg" alt="Decor Botez">
+                    </div>
+                    <p>Decoruri de poveste pentru cei mici.</p>
+                </article>
+                <article class="service">
+                    <h2>Party</h2>
+                    <div class="service-img-container">
+                        <img src="assets/img/party.jpg" alt="Petreceri Moderne">
+                    </div>
+                    <p>Petreceri private și moderne.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="preturi" class="section-container">
+            <h2 class="table-title">Lista de Prețuri</h2>
+            <table class="prices-table">
+                <caption>Tarife Servicii - Condrea Adriana</caption>
+                <thead>
+                    <tr>
+                        <th>Serviciu</th>
+                        <th>Detalii</th>
+                        <th>Preț</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Consultanță</td>
+                        <td>2 ore</td>
+                        <td>50 EUR</td>
+                    </tr>
+                    <tr class="zebra">
+                        <td>Decor Sală</td>
+                        <td>Standard</td>
+                        <td>300 EUR</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Foto-Video</td>
+                        <td>Standard</td>
+                        <td>500 EUR</td>
+                    </tr>
+                    <tr>
+                        <td>Premium</td>
+                        <td>900 EUR</td>
+                    </tr>
+                    <tr class="zebra">
+                        <td colspan="2">Pachet Complet Eveniment</td>
+                        <td>1500 EUR</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="contact-wrapper">
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Rezervare trimisă cu succes!');">
+                    <fieldset>
+                        <legend>Formular rezervare</legend>
+                        <input type="text" placeholder="Username (min 5 litere mici)" required pattern="[a-z0-9]{5,}">
+                        <input type="password" placeholder="Parolă" required>
+                        <textarea placeholder="Mesaj..." required></textarea>
+                        <button type="submit">Trimite</button>
+                    </fieldset>
+                </form>
+
+                <div class="location-info">
+                    <div class="media-box">
+                        <h3>Video de Prezentare</h3>
+                        <iframe src="https://www.youtube-nocookie.com/embed/v0r03z50Es4" title="Video Evenimente"></iframe>
+                    </div>
+                    <div class="media-box">
+                        <h3>Locație Hărți</h3>
+                        <iframe src="https://maps.google.com/maps?q=Technical%20University%20of%20Moldova&t=&z=13&ie=UTF8&iwloc=&output=embed" title="Harta Locație"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Adriana Condrea | RC-251</p>
+        <div class="social-links">
+            <a href="https://github.com" target="_blank">GitHub</a> | 
+            <a href="https://utm.md" target="_blank">Portal UTM</a>
+        </div>
+        <br>
+        <label>
+            <input type="checkbox" id="gdpr-optout"> Refuză cookies/telemetrie
+        </label>
+    </footer>
+
+    <script>
+        // Întrerupătorul de temă pentru index
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            if(document.body.classList.contains('light-mode')) {
+                document.body.classList.replace('light-mode', 'dark-mode');
+                themeBtn.textContent = '☀️';
+            } else {
+                document.body.classList.replace('dark-mode', 'light-mode');
+                themeBtn.textContent = '🌙';
+            }
+        });
+
+        // Interactivitatea celor 5 butoane din Dashboard-ul de pe Index
+        function runSystemCheck(type) {
+            const emoji = document.getElementById('status-emoji');
+            const title = document.getElementById('status-title');
+            const desc = document.getElementById('status-desc');
+            
+            const speedBar = document.getElementById('speed-bar');
+            const gpuBar = document.getElementById('gpu-bar');
+            const gridBar = document.getElementById('grid-bar');
+
+            const speedVal = document.getElementById('speed-val');
+            const gpuVal = document.getElementById('gpu-val');
+            const gridVal = document.getElementById('grid-val');
+
+            if(type === 'viteza') {
+                emoji.textContent = '⚡';
+                title.textContent = 'Diagnostic Viteză Finalizat';
+                desc.textContent = 'Arhitectura de rețea a fost optimizată instant.';
+                speedBar.style.width = '98%';
+                speedVal.textContent = '0.1s (Ultra Fast)';
+            } else if(type === 'design') {
+                emoji.textContent = '🎨';
+                title.textContent = 'Stilizare Flexbox/Grid Verificată';
+                desc.textContent = 'Toate elementele vizuale respectă regulile de simetrie.';
+                gpuBar.style.width = '90%';
+                gpuVal.textContent = '90% Hardware Acceleration';
+            } else if(type === 'logica') {
+                emoji.textContent = '🧠';
+                title.textContent = 'Sistemul Logic Coerent';
+                desc.textContent = 'Evenimentele și manipularea DOM funcționează fără erori.';
+                gridBar.style.width = '100%';
+                gridVal.textContent = '60 FPS Stabil';
+            } else if(type === 'animatii') {
+                emoji.textContent = '🎬';
+                title.textContent = 'Rată de Reîmprospătare Maximizată';
+                desc.textContent = 'Tranzițiile CSS rulează fluid pe nucleele GPU.';
+                gpuBar.style.width = '95%';
+                gridBar.style.width = '98%';
+                gridVal.textContent = '120 FPS Pro';
+            } else if(type === 'sistem') {
+                emoji.textContent = '⚙️';
+                title.textContent = 'Sistem Global Sănătos';
+                desc.textContent = 'Toate nodurile și modulele Web Storage funcționează optim.';
+                speedBar.style.width = '95%';
+                gpuBar.style.width = '95%';
+                gridBar.style.width = '95%';
+                speedVal.textContent = '0.2s';
+                gpuVal.textContent = '95% Active';
+                gridVal.textContent = '60 FPS';
+            }
+        }
+    </script>
+    <script src="assets/js/telemetry.js" defer></script>
+</body>
+</html>

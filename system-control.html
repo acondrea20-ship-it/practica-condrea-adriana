@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Control | Magia Evenimentelor</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   LAYER 1 — ATOMIC TOKENS (Primitive Scale)
+   ============================================================ */
+:root {
+  /* Primitives */
+  --color-blue-50:  #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-900: #1e3a8a;
+
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+
+  --color-amber-400: #fbbf24;
+
+  --color-red-400:  #f87171;
+  --color-red-500:  #ef4444;
+
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020617;
+
+  /* ============================================================
+     LAYER 2 — SEMANTIC ALIASES (Role-Based)
+     ============================================================ */
+  --color-bg-base:        var(--color-neutral-50);
+  --color-bg-surface:     var(--color-neutral-0);
+  --color-bg-elevated:    var(--color-neutral-100);
+  --color-bg-overlay:     rgba(255,255,255,0.7);
+
+  --color-text-primary:   var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-500);
+  --color-text-muted:     var(--color-neutral-400);
+  --color-text-inverse:   var(--color-neutral-0);
+
+  --color-border:         var(--color-neutral-200);
+  --color-border-strong:  var(--color-neutral-300);
+
+  --color-accent-primary:   var(--color-blue-600);
+  --color-accent-secondary: var(--color-cyan-500);
+  --color-accent-tertiary:  var(--color-violet-500);
+
+  --color-status-active:  var(--color-green-500);
+  --color-status-warning: var(--color-amber-400);
+  --color-status-error:   var(--color-red-500);
+  --color-status-idle:    var(--color-neutral-400);
+
+  --color-neon-valid:     var(--color-green-400);
+  --color-neon-invalid:   var(--color-red-400);
+  --color-neon-focus:     var(--color-cyan-400);
+
+  /* Glass / Hologram */
+  --color-glass-bg:       rgba(255,255,255,0.12);
+  --color-glass-border:   rgba(255,255,255,0.25);
+  --color-glass-shine:    rgba(255,255,255,0.4);
+  --color-hologram-glow:  rgba(34,211,238,0.35);
+
+  /* ============================================================
+     LAYER 3 — COMPONENT TOKENS (Used directly in CSS rules)
+     ============================================================ */
+  --page-bg:              var(--color-bg-base);
+  --page-text:            var(--color-text-primary);
+  --nav-bg:               var(--color-bg-surface);
+  --nav-border:           var(--color-border);
+  --nav-link:             var(--color-text-secondary);
+  --nav-link-active:      var(--color-accent-primary);
+
+  --card-bg:              var(--color-bg-surface);
+  --card-border:          var(--color-border);
+  --card-shadow:          0 4px 24px rgba(0,0,0,0.08);
+  --card-shadow-hover:    0 12px 40px rgba(37,99,235,0.18);
+
+  --hologram-bg:          rgba(37,99,235,0.06);
+  --hologram-ring:        rgba(34,211,238,0.5);
+  --hologram-text:        var(--color-text-primary);
+
+  --form-bg:              var(--color-bg-surface);
+  --form-border:          var(--color-border);
+  --form-input-bg:        var(--color-bg-elevated);
+  --form-input-text:      var(--color-text-primary);
+  --form-input-placeholder: var(--color-text-muted);
+  --form-label:           var(--color-text-secondary);
+
+  /* Animation orchestration */
+  --base-delay: 120ms;
+  --step:       160ms;
+  --ease:       cubic-bezier(0.5,1.5,0.5,1);
+  --ease-smooth: cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+/* ============================================================
+   DARK MODE — Motor Tematic
+   ============================================================ */
+body.dark-theme {
+  --color-bg-base:        var(--color-neutral-950);
+  --color-bg-surface:     var(--color-neutral-900);
+  --color-bg-elevated:    var(--color-neutral-800);
+  --color-bg-overlay:     rgba(15,23,42,0.7);
+
+  --color-text-primary:   var(--color-neutral-50);
+  --color-text-secondary: var(--color-neutral-400);
+  --color-text-muted:     var(--color-neutral-500);
+  --color-text-inverse:   var(--color-neutral-900);
+
+  --color-border:         var(--color-neutral-700);
+  --color-border-strong:  var(--color-neutral-600);
+
+  --color-accent-primary:   var(--color-blue-400);
+  --color-accent-secondary: var(--color-cyan-400);
+  --color-accent-tertiary:  var(--color-violet-400);
+
+  --color-glass-bg:       rgba(15,23,42,0.5);
+  --color-glass-border:   rgba(96,165,250,0.2);
+  --color-glass-shine:    rgba(96,165,250,0.15);
+  --color-hologram-glow:  rgba(34,211,238,0.55);
+
+  --card-shadow:          0 4px 24px rgba(0,0,0,0.4);
+  --card-shadow-hover:    0 12px 40px rgba(96,165,250,0.25);
+
+  --hologram-bg:          rgba(15,23,42,0.6);
+  --hologram-ring:        rgba(34,211,238,0.7);
+  --hologram-text:        var(--color-text-primary);
+
+  --form-bg:              var(--color-bg-surface);
+  --form-input-bg:        var(--color-neutral-800);
+}
+
+/* RESET & BASE */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--page-bg);
+  color: var(--page-text);
+  transition: background 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background 0.4s, border-color 0.4s;
+}
+
+.nav__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--color-accent-primary);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.nav__links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav__link {
+  color: var(--nav-link);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav__link:hover,
+.nav__link--active {
+  color: var(--nav-link-active);
+}
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Theme Toggle Slider */
+.theme-toggle {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  width: 52px;
+  height: 28px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.theme-toggle::after {
+  content: '🌙';
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 14px;
+  transition: transform 0.3s var(--ease);
+}
+
+body.dark-theme .theme-toggle::after {
+  content: '☀️';
+  transform: translateX(24px);
+}
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+.hero {
+  text-align: center;
+  padding: 60px 24px 40px;
+}
+
+.hero__eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--color-accent-secondary);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.hero__title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--color-text-primary);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.hero__title span {
+  color: var(--color-accent-primary);
+}
+
+.hero__subtitle {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   HOLOGRAM CENTERPIECE
+   ============================================================ */
+.neural-center {
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.neural-glass {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+
+.neural-glass__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--hologram-ring);
+  box-shadow:
+    0 0 40px var(--color-hologram-glow),
+    inset 0 0 40px var(--color-hologram-glow);
+  transition: box-shadow 0.4s;
+  animation: ring-pulse 3s ease-in-out infinite;
+}
+
+@keyframes ring-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+.neural-glass__body {
+  position: absolute;
+  inset: 16px;
+  border-radius: 50%;
+  background: var(--hologram-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-glass-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: background 0.4s;
+  transform-style: preserve-3d;
+  transform: perspective(600px) rotateX(0deg) rotateY(0deg);
+  transition: transform 0.1s ease-out, background 0.4s;
+}
+
+.neural-glass__shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    var(--color-glass-shine) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.neural-glass__orbit {
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1px dashed var(--color-accent-secondary);
+  opacity: 0.3;
+  animation: orbit-spin 8s linear infinite;
+}
+
+.neural-glass__orbit--2 {
+  inset: 40px;
+  border-color: var(--color-accent-tertiary);
+  animation-duration: 12s;
+  animation-direction: reverse;
+}
+
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.neural-glass__label {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.neural-glass__label-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--color-accent-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.neural-glass__label-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.neural-glass__label-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 6px;
+  font-family: 'Space Mono', monospace;
+}
+
+.neural-glass__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  justify-content: center;
+}
+
+.neural-glass__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-status-active);
+  box-shadow: 0 0 8px var(--color-status-active);
+  animation: dot-blink 2s ease-in-out infinite;
+}
+
+@keyframes dot-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.neural-glass__status-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--color-status-active);
+  letter-spacing: 0.1em;
+}
+
+/* Custom Hologram Cursor Target */
+.neural-glass__cursor {
+  position: fixed;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-accent-secondary);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  box-shadow: 0 0 10px var(--color-accent-secondary);
+}
+
+/* ============================================================
+   SERVICES GRID — GPU Orchestration
+   ============================================================ */
+.services-section {
+  padding: 60px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.services-section__heading {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.services-section__heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.service-card {
+  will-change: transform, opacity;
+  contain: layout style paint;
+  transform: translateZ(0);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.3s var(--ease-smooth), border-color 0.3s, background 0.4s;
+  --delay: calc(var(--base-delay) + var(--i, 0) * var(--step));
+  animation: service-enter 700ms var(--ease) both;
+  animation-delay: var(--delay);
+}
+
+@keyframes service-enter {
+  from { opacity: 0; transform: translateY(32px) translateZ(0); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0) translateZ(0); filter: blur(0); }
+}
+
+.service-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--color-accent-primary);
+}
+
+.service-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.service-card__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--color-bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 1px solid var(--color-border);
+}
+
+.service-card__status-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+}
+
+.service-card__status-badge--active {
+  background: rgba(34,197,94,0.1);
+  color: var(--color-status-active);
+  border: 1px solid rgba(34,197,94,0.25);
+}
+
+.service-card__status-badge--warning {
+  background: rgba(251,191,36,0.1);
+  color: var(--color-status-warning);
+  border: 1px solid rgba(251,191,36,0.25);
+}
+
+.service-card__status-badge--idle {
+  background: rgba(148,163,184,0.1);
+  color: var(--color-status-idle);
+  border: 1px solid rgba(148,163,184,0.25);
+}
+
+.service-card__status-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.service-card__name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+}
+
+.service-card__desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.service-card__bar-track {
+  height: 4px;
+  background: var(--color-bg-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.service-card__bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+  transform-origin: left;
+  animation: bar-fill 1.2s var(--ease-smooth) both;
+  animation-delay: calc(var(--base-delay) + var(--i, 0) * var(--step) + 400ms);
+}
+
+@keyframes bar-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ============================================================
+   ACCESS FORM
+   ============================================================ */
+.access-section {
+  padding: 60px 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.access-section__heading {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.access-section__heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.access-form {
+  background: var(--form-bg);
+  border: 1px solid var(--form-border);
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: var(--card-shadow);
+  transition: background 0.4s, border-color 0.4s;
+}
+
+.access-form__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+}
+
+.access-form__subtitle {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 28px;
+}
+
+.access-form__group {
+  margin-bottom: 20px;
+}
+
+.access-form__label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--form-label);
+  margin-bottom: 7px;
+  letter-spacing: 0.04em;
+  font-family: 'Space Mono', monospace;
+}
+
+.access-form__input {
+  width: 100%;
+  padding: 11px 16px;
+  background: var(--form-input-bg);
+  border: 1.5px solid var(--form-border);
+  border-radius: 10px;
+  color: var(--form-input-text);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.4s;
+}
+
+.access-form__input:focus {
+  border-color: var(--color-neon-focus);
+  box-shadow: 0 0 0 3px rgba(34,211,238,0.18), 0 0 12px rgba(34,211,238,0.1);
+}
+
+/* CSS State Engine - Valide / Invalide */
+.access-form__input:not(:placeholder-shown):valid {
+  border-color: var(--color-neon-valid);
+  box-shadow: 0 0 0 3px rgba(74,222,128,0.15);
+}
+.access-form__input:not(:placeholder-shown):invalid {
+  border-color: var(--color-neon-invalid);
+  box-shadow: 0 0 0 3px rgba(248,113,113,0.15);
+}
+
+.access-form__hint {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin-top: 6px;
+  font-family: 'Space Mono', monospace;
+}
+
+/* Sibling combinators */
+.access-form__group:has(.access-form__input:not(:placeholder-shown):valid) .access-form__label,
+.access-form__group:has(.access-form__input:not(:placeholder-shown):valid) .access-form__hint {
+  color: var(--color-neon-valid);
+}
+.access-form__group:has(.access-form__input:not(:placeholder-shown):invalid) .access-form__label,
+.access-form__group:has(.access-form__input:not(:placeholder-shown):invalid) .access-form__hint {
+  color: var(--color-neon-invalid);
+}
+
+.access-form__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.access-form__checkbox-group { display: flex; align-items: center; gap: 8px; }
+.access-form__checkbox { width: 16px; height: 16px; accent-color: var(--color-accent-primary); cursor: pointer; }
+.access-form__checkbox-label { font-size: 0.8rem; color: var(--color-text-secondary); cursor: pointer; }
+.access-form__link { font-size: 0.8rem; color: var(--color-accent-primary); text-decoration: none; }
+.access-form__link:hover { text-decoration: underline; }
+
+.access-form__submit {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  background: var(--color-accent-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: not-allowed;
+  opacity: 0.45;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Activare Buton automat via `:has` când elementele cerute sunt valide */
+.access-form:has(.access-form__input[required]:valid) .access-form__submit {
+  opacity: 1;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(37,99,235,0.4);
+}
+.access-form:has(.access-form__input[required]:valid) .access-form__submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 32px rgba(37,99,235,0.55);
+}
+
+.footer {
+  text-align: center;
+  padding: 40px 24px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-family: 'Space Mono', monospace;
+}
+</style>
+</head>
+<body>
+
+<div class="neural-glass__cursor" id="customCursor"></div>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">Magia Evenimentelor</a>
+    <ul class="nav__links">
+      <li><a href="index.html" class="nav__link">Acasă</a></li>
+      <li><a href="index.html#servicii" class="nav__link">Servicii</a></li>
+      <li><a href="system-control.html" class="nav__link nav__link--active">System Control</a></li>
+      <li><a href="index.html#contact" class="nav__link">Contact</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <p class="hero__eyebrow">RC 251 · System Control</p>
+  <h1 class="hero__title">Architect <span>Dashboard</span></h1>
+  <p class="hero__subtitle">Centrul de control neural al platformei — monitorizare și interacțiune spațială.</p>
+</header>
+
+<section class="neural-center">
+  <div class="neural-glass" id="neuralGlass">
+    <div class="neural-glass__ring"></div>
+    <div class="neural-glass__body" id="glassBody">
+      <div class="neural-glass__shine" id="glassShine"></div>
+      <div class="neural-glass__orbit"></div>
+      <div class="neural-glass__orbit architectural-glass__orbit--2"></div>
+      <div class="neural-glass__label">
+        <p class="neural-glass__label-title">Neural Core</p>
+        <p class="neural-glass__label-value">99.8%</p>
+        <p class="neural-glass__label-sub">uptime · 3 nodes active</p>
+        <div class="neural-glass__status">
+          <span class="neural-glass__dot"></span>
+          <span class="neural-glass__status-text">ONLINE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="services-section">
+  <p class="services-section__heading">Servicii sistem</p>
+  <div class="services-grid">
+    <article class="service-card" style="--i:1">
+      <div class="service-card__header"><div class="service-card__icon">🎉</div><span class="service-card__status-badge service-card__status-badge--active">Activ</span></div>
+      <p class="service-card__name">Planificare Evenimente</p>
+      <p class="service-card__desc">Gestionare completă a nunților și petrecerilor private.</p>
+      <div class="service-card__bar-track"><div class="service-card__bar-fill" style="width:92%"></div></div>
+    </article>
+    <article class="service-card" style="--i:2">
+      <div class="service-card__header"><div class="service-card__icon">📸</div><span class="service-card__status-badge service-card__status-badge--active">Activ</span></div>
+      <p class="service-card__name">Fotografie & Video</p>
+      <p class="service-card__desc">Captarea cinematică a momentelor de poveste.</p>
+      <div class="service-card__bar-track"><div class="service-card__bar-fill" style="width:87%"></div></div>
+    </article>
+    <article class="service-card" style="--i:3">
+      <div class="service-card__header"><div class="service-card__icon">🎶</div><span class="service-card__status-badge service-card__status-badge--active">Activ</span></div>
+      <p class="service-card__name">Muzică Live & DJ</p>
+      <p class="service-card__desc">Formații profesionale potrivite profilului ales.</p>
+      <div class="service-card__bar-track"><div class="service-card__bar-fill" style="width:78%"></div></div>
+    </article>
+  </div>
+</main>
+
+<section class="access-section">
+  <p class="access-section__heading">Acces securizat</p>
+  <form class="access-form" novalidate onsubmit="event.preventDefault(); alert('Acces autorizat!');">
+    <h2 class="access-form__title">Autentificare</h2>
+    <p class="access-form__subtitle">Introduceți credențialele pentru panou.</p>
+    
+    <div class="access-form__group">
+      <label class="access-form__label" for="sc-username">Utilizator</label>
+      <input class="access-form__input" id="sc-username" type="text" name="username" placeholder="admin@magia.md" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" required autocomplete="username">
+      <p class="access-form__hint">Format: utilizator@domeniu.md</p>
+    </div>
+
+    <div class="access-form__group">
+      <label class="access-form__label" for="sc-password">Parolă</label>
+      <input class="access-form__input" id="sc-password" type="password" name="password" placeholder="••••••••" minlength="8" required autocomplete="current-password">
+      <p class="access-form__hint">Minim 8 caractere</p>
+    </div>
+
+    <button class="access-form__submit" type="submit">Accesează Panoul</button>
+  </form>
+</section>
+
+<footer class="footer">
+  <p>© 2026 Adriana Condrea · RC 251 · system-control.html</p>
+</footer>
+
+<script>
+/* -----------------------------------------------------------
+   1. DARK MODE ENGINE PERSISTENCE
+   ----------------------------------------------------------- */
+const toggle   = document.getElementById('themeToggle');
+const body     = document.body;
+const DARK_KEY = 'sc-dark-theme';
+
+if (localStorage.getItem(DARK_KEY) === '1') {
+  body.classList.add('dark-theme');
+}
+
+toggle.addEventListener('click', () => {
+  body.classList.toggle('dark-theme');
+  localStorage.setItem(DARK_KEY, body.classList.contains('dark-theme') ? '1' : '0');
+});
+
+/* -----------------------------------------------------------
+   2. 3D POSITIONING AND SPECULAR GLOW TRACKING
+   ----------------------------------------------------------- */
+const neuralGlass = document.getElementById('neuralGlass');
+const glassBody   = document.getElementById('glassBody');
+const glassShine  = document.getElementById('glassShine');
+const customCursor = document.getElementById('customCursor');
+
+document.addEventListener('mousemove', (e) => {
+  const rect = neuralGlass.getBoundingClientRect();
+  
+  // Distanțe relative față de centrul cercului holografic
+  const glassCenterX = rect.left + rect.width / 2;
+  const glassCenterY = rect.top + rect.height / 2;
+  
+  const deltaX = e.clientX - glassCenterX;
+  const deltaY = e.clientY - glassCenterY;
+  
+  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  
+  // Activăm cursorul personalizat doar în vecinătatea sferei (280px)
+  if (distance < 280) {
+    customCursor.style.opacity = '1';
+    customCursor.style.top = `${e.clientY}px`;
+    customCursor.style.left = `${e.clientX}px`;
+  } else {
+    customCursor.style.opacity = '0';
+  }
+
+  // Unghi rotație bazat pe mouse (max 15 grade pe X și Y)
+  const tiltX = -(deltaY / 300) * 15;
+  const tiltY = (deltaX / 300) * 15;
+
+  // Calcul punct de reflexie luminoasă dinamică
+  const shineX = ((e.clientX - rect.left) / rect.width) * 100;
+  const shineY = ((e.clientY - rect.top) / rect.height) * 100;
+
+  glassBody.style.transform = `perspective(600px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+  glassShine.style.setProperty('--mx', `${shineX}%`);
+  glassShine.style.setProperty('--my', `${shineY}%`);
+});
+
+// Resetarea stării plane la părăsirea ariei interactive
+neuralGlass.addEventListener('mouseleave', () => {
+  glassBody.style.transform = `perspective(600px) rotateX(0deg) rotateY(0deg)`;
+  customCursor.style.opacity = '0';
+});
+</script>
+<script src="assets/js/telemetry.js" defer></script>
+</body>
+</html>
